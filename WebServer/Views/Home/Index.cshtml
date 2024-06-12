@@ -1,0 +1,22 @@
+﻿@model IndexModel
+
+<main>
+  <div id="control">
+    <form asp-controller="Home" asp-action="StartServer" method="POST">
+      <button type="submit">Запустить gRPCServer</button>
+    </form>
+    <form asp-controller="Home" asp-action="StopServer" method="POST">
+      <button type="submit">Остановить gRPCServer</button>
+    </form>
+  </div>
+  <br>
+  <div id="request">
+    <form asp-controller="Home" asp-action="SendTestRequest" method="POST">
+      <input type="text" asp-for="Data!.Text" required>
+      <input type="submit" value="Отправить">
+    </form>
+    @if (TempData.ContainsKey("answer")) {
+      <p>Ответ: @TempData["answer"]</p>
+    }
+  </div>
+</main>
