@@ -11,12 +11,12 @@
   </div>
   <br>
   <div id="request">
-    <form asp-controller="Home" asp-action="SendTestRequest" method="POST">
+    <form asp-controller="Home" asp-action="SayHello" method="POST">
       <input type="text" asp-for="Data!.Text" required>
-      <input type="submit" value="Отправить">
+      <input type="submit" value="SayHello">
     </form>
-    @if (TempData.ContainsKey("answer")) {
-      <p>Ответ: @TempData["answer"]</p>
+    @if (TempData.ContainsKey("response")) {
+      <p>Ответ: @TempData["response"]</p>
     }
   </div>
 </main>

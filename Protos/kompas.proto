@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+option csharp_namespace = "KOMPAS";
+
+package greet;
+
+service Kompas {
+  rpc SendRequest (google.protobuf.Empty) returns (stream Request);
+  rpc SayHello (Hello) returns (google.protobuf.Empty);
+}
+
+message Request {
+  string action = 1;
+  string data = 2;
+}
+
+message Hello {
+  string message = 1;
+}

@@ -8,21 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="appsettings.json" />
+    <Protobuf Include="../Protos/kompas.proto" GrpcServices="Server" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="appsettings.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Protobuf Include="../Protos/greet.proto" GrpcServices="Client" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Google.Protobuf" Version="3.27.1" />
-    <PackageReference Include="Grpc.Net.Client" Version="2.63.0" />
-    <PackageReference Include="Grpc.Net.Common" Version="2.63.0" />
+    <PackageReference Include="Google.Protobuf" Version="3.27.2" />
+    <PackageReference Include="Grpc.AspNetCore" Version="2.63.0" />
+    <PackageReference Include="Grpc.AspNetCore.Web" Version="2.63.0" />
     <PackageReference Include="Grpc.Tools" Version="2.64.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

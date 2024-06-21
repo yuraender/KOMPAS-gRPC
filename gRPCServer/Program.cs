@@ -12,6 +12,7 @@ namespace gRPCServer {
         public static ILogger<Program>? Logger {
             get; private set;
         }
+        const string host = "127.0.0.1";
         const int port = 5490;
 
         public static async Task Main(string[] args) {
@@ -23,8 +24,8 @@ namespace gRPCServer {
             var hostBuilder = Host.CreateDefaultBuilder(args);
             hostBuilder.ConfigureServices((hostContext, services) => {
                 Server server = new Server {
-                    Services = { Greeter.BindService(new GreeterService(loggerFactory)) },
-                    Ports = { new ServerPort("localhost", port, ServerCredentials.Insecure) }
+                    Services = { Kompas.BindService(new KompasService(loggerFactory)) },
+                    Ports = { new ServerPort(host, port, ServerCredentials.Insecure) }
                 };
                 server.Start();
                 services.AddSingleton(server);

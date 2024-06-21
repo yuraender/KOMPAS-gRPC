@@ -1,9 +1,8 @@
-﻿using Grpc.Net.Client;
+﻿using KOMPAS;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using KOMPAS;
-using Grpc.Core;
 using WebServer.Pages;
+using WebServer.Services;
 
 namespace WebServer.Controllers {
 
@@ -39,18 +38,18 @@ namespace WebServer.Controllers {
         }
 
         [HttpPost]
-        public IActionResult SendTestRequest(Data data) {
-            using (var channel = GrpcChannel.ForAddress("http://localhost:5490")) {
-                var client = new Greeter.GreeterClient(channel);
-                try {
-                    var hello = client.SayHello(new HelloRequest { Name = data.Text });
-                    if (hello != null) {
-                        TempData["answer"] = hello.Message;
-                    }
-                } catch (RpcException ex) {
-                    TempData["answer"] = ex.Status.Detail;
-                }
+        public IActionResult SayHello(Data data) {
+            var ip = HttpContext.Connection.RemoteIpAddress;
+            if (ip == null || string.IsNullOrEmpty(data.Text)) {
+                return RedirectToAction("Index");
             }
+            KompasService.AddRequest(
+                ip.ToString(),
+                new Request {
+                    Action = "SayHello",
+                    Data = data.Text
+                }
+            );
             return RedirectToAction("Index");
         }
     }

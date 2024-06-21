@@ -8,11 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Protobuf Include="../Protos/greet.proto" GrpcServices="Server" />
+    <Protobuf Include="../Protos/kompas.proto" GrpcServices="Server" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Google.Protobuf" Version="3.27.1" />
+    <PackageReference Include="Google.Protobuf" Version="3.27.2" />
     <PackageReference Include="Grpc.Core" Version="2.46.6" />
     <PackageReference Include="Grpc.Tools" Version="2.64.0">
       <PrivateAssets>all</PrivateAssets>
