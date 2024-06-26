@@ -1,6 +1,5 @@
 ﻿using KOMPAS;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
 using WebServer.Pages;
 using WebServer.Services;
 
@@ -8,33 +7,23 @@ namespace WebServer.Controllers {
 
     public class HomeController : Controller {
 
-        static string exePath =
-            @"..\gRPCServer\bin\Release\net8.0\gRPCServer.exe";
-
         public IActionResult Index() {
+            var response = KompasService.GetCacheData(
+                HttpContext.Connection.RemoteIpAddress.ToString(), "response");
+            if (response != null) {
+                TempData["response"] = response;
+            }
             return View();
         }
 
         [HttpPost]
-        public IActionResult StartServer() {
-            if (System.IO.File.Exists(exePath)) {
-                Process.Start(new ProcessStartInfo {
-                    FileName = exePath,
-                    UseShellExecute = true,
-                    CreateNoWindow = false
-                });
-            }
-            return RedirectToAction("Index");
+        public IActionResult StartKompas() {
+            return Redirect("kgrpc://start?server=me.yuraender.ru:5490");
         }
 
         [HttpPost]
-        public IActionResult StopServer() {
-            foreach (var process in Process.GetProcessesByName("gRPCServer")) {
-                process.Kill();
-                process.WaitForExit();
-                process.Dispose();
-            }
-            return RedirectToAction("Index");
+        public IActionResult StopKompas() {
+            return Redirect("kgrpc://stop");
         }
 
         [HttpPost]
