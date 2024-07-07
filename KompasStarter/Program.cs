@@ -15,12 +15,6 @@ namespace KompasStarter {
             var parameters = HttpUtility.ParseQueryString(uri.Query);
             switch (uri.Host) {
                 case "start":
-                    if (parameters.Count == 0) {
-                        break;
-                    }
-                    Environment.SetEnvironmentVariable(
-                        "KOMPAS_gRPC", parameters["server"], EnvironmentVariableTarget.Machine
-                    );
                     Process.Start(new ProcessStartInfo {
                         FileName = exePath,
                         UseShellExecute = true,

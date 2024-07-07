@@ -1,7 +1,8 @@
-﻿using KOMPAS;
+using Grpc.Core;
+using Grpc.Net.Client;
+using KOMPAS;
 using Microsoft.AspNetCore.Mvc;
 using WebServer.Pages;
-using WebServer.Services;
 
 namespace WebServer.Controllers {
 
@@ -18,7 +19,7 @@ namespace WebServer.Controllers {
 
         [HttpPost]
         public IActionResult StartKompas() {
-            return Redirect("kgrpc://start?server=me.yuraender.ru:5490");
+            return Redirect("kgrpc://start");
         }
 
         [HttpPost]
@@ -28,15 +29,18 @@ namespace WebServer.Controllers {
 
         [HttpPost]
         public IActionResult SayHello(Data data) {
-            var ip = HttpContext.Connection.RemoteIpAddress;
-            if (ip == null || string.IsNullOrEmpty(data.Text)) {
+            if (string.IsNullOrEmpty(data.Text)) {
                 return RedirectToAction("Index");
             }
-            KompasService.AddRequest(
-                ip.ToString(),
-                new Request {
-                    Action = "SayHello",
-                    Data = data.Text
+            using (var channel = GrpcChannel.ForAddress("http://127.0.0.1:5491")) {
+                var client = new Kompas.KompasClient(channel);
+                try {
+                    var hello = client.SayHello(new HelloRequest { Name = data.Text });
+                    if (hello != null) {
+                        TempData["response"] = hello.Message;
+                    }
+                } catch (RpcException ex) {
+                    TempData["response"] = ex.Status.Detail;
                 }
             );
             return RedirectToAction("Index");

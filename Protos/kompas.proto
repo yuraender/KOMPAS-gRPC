@@ -7,15 +7,14 @@ option csharp_namespace = "KOMPAS";
 package greet;
 
 service Kompas {
-  rpc SendRequest (google.protobuf.Empty) returns (stream Request);
-  rpc SayHello (Hello) returns (google.protobuf.Empty);
+  rpc SayHello (HelloRequest) returns (HelloResponse);
 }
 
-message Request {
-  string action = 1;
-  string data = 2;
+message HelloRequest {
+    string name = 1;
 }
 
-message Hello {
-  string message = 1;
+message HelloResponse {
+    string message = 1;
+}
 }

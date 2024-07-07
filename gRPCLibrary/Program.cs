@@ -1,13 +1,11 @@
 ﻿using Grpc.Core;
-using Grpc.Net.Client;
-using Grpc.Net.Client.Web;
+using gRPCLibrary.Services;
 using KOMPAS;
 using Kompas6API5;
 using KompasAPI7;
 using KompasLibrary;
 using Microsoft.Win32;
 using System;
-using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -23,38 +21,18 @@ namespace gRPCLibrary {
         public static IApplication Application {
             get; set;
         }
-
-        private async Task GrpcRunner() {
-            try {
-                using (var channel = GrpcChannel.ForAddress(
-                    "http://" + Environment.GetEnvironmentVariable("KOMPAS_gRPC"),
-                    new GrpcChannelOptions() {
-                        HttpHandler = new GrpcWebHandler(new HttpClientHandler())
-                    }
-                )) {
-                    var client = new Kompas.KompasClient(channel);
-                    using (var call = client.SendRequest(new Google.Protobuf.WellKnownTypes.Empty())) {
-                        var responseStream = call.ResponseStream;
-                        await responseStream.MoveNext();
-                        while (await responseStream.MoveNext()) {
-                            RunAction(client, responseStream.Current);
-                        }
-                    }
-                }
-            } catch (Exception ex) {
-                KompasAPI.ksMessage("Ошибка: " + ex.Message);
-            }
+        public static Server GrpcServer {
+            get; set;
         }
 
-        private void RunAction(Kompas.KompasClient client, Request request) {
-            if (request.Action == null || request.Data == null) {
-                return;
-            }
-            switch (request.Action) {
-                case "SayHello":
-                    client.SayHello(new Hello { Message = "Привет, " + request.Data });
-                    break;
-            }
+        private void GrpcRunner() {
+            const string host = "127.0.0.1";
+            const int port = 5491;
+            GrpcServer = new Server {
+                Services = { Kompas.BindService(new KompasService()) },
+                Ports = { new ServerPort(host, port, ServerCredentials.Insecure) }
+            };
+            GrpcServer.Start();
         }
 
         #region KOMPAS library
@@ -86,11 +64,15 @@ namespace gRPCLibrary {
                 MessageBox.Show(string.Format("При запуске произошла ошибка: {0}", ex));
                 return false;
             }
-            Task.Run(async () => await GrpcRunner());
+            Task.Run(() => GrpcRunner());
             return true;
         }
 
         public bool BeginUnloadLibrary() {
+            if (GrpcServer != null) {
+                GrpcServer.ShutdownTask.Wait();
+                GrpcServer = null;
+            }
             if (KompasAPI != null) {
                 Marshal.ReleaseComObject(KompasAPI);
                 GC.SuppressFinalize(KompasAPI);

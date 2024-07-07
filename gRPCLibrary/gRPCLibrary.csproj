@@ -60,9 +60,10 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\KompasService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Protobuf Include="..\Protos\kompas.proto" GrpcServices="Client">
+    <Protobuf Include="..\Protos\kompas.proto" GrpcServices="Server">
       <Link>Protos\kompas.proto</Link>
     </Protobuf>
   </ItemGroup>
@@ -78,14 +79,8 @@
     <PackageReference Include="Google.Protobuf">
       <Version>3.27.2</Version>
     </PackageReference>
-    <PackageReference Include="Grpc.Net.Client">
-      <Version>2.63.0</Version>
-    </PackageReference>
-    <PackageReference Include="Grpc.Net.Client.Web">
-      <Version>2.63.0</Version>
-    </PackageReference>
-    <PackageReference Include="Grpc.Net.Common">
-      <Version>2.63.0</Version>
+    <PackageReference Include="Grpc.Core">
+      <Version>2.46.6</Version>
     </PackageReference>
     <PackageReference Include="Grpc.Tools">
       <Version>2.64.0</Version>
