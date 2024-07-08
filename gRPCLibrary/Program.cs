@@ -6,6 +6,7 @@ using KompasAPI7;
 using KompasLibrary;
 using Microsoft.Win32;
 using System;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -65,6 +66,11 @@ namespace gRPCLibrary {
                 return false;
             }
             Task.Run(() => GrpcRunner());
+            Process.Start(new ProcessStartInfo {
+                FileName = @"C:\Users\user\VisualStudioProjects\KOMPAS-gRPC\WebClient\bin\Release\net8.0\WebClient.exe",
+                UseShellExecute = true,
+                CreateNoWindow = true,
+            });
             return true;
         }
 

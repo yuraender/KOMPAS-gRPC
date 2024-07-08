@@ -11,7 +11,7 @@
   </div>
   <br>
   @if (TempData.ContainsKey("status")) {
-    <p>Статус: @TempData["status"]</p>
+    <p id="status">Статус: @TempData["status"]</p>
   }
   <div id="request">
     <form asp-controller="Home" asp-action="SayHello" method="POST">

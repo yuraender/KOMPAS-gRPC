@@ -15,6 +15,12 @@ namespace KompasStarter {
             var parameters = HttpUtility.ParseQueryString(uri.Query);
             switch (uri.Host) {
                 case "start":
+                    if (parameters.Count == 0) {
+                        break;
+                    }
+                    Environment.SetEnvironmentVariable(
+                        "KOMPAS_WebServer", parameters["server"], EnvironmentVariableTarget.Machine
+                    );
                     Process.Start(new ProcessStartInfo {
                         FileName = exePath,
                         UseShellExecute = true,
@@ -23,6 +29,11 @@ namespace KompasStarter {
                     break;
                 case "stop":
                     foreach (var process in Process.GetProcessesByName("kStudy")) {
+                        process.Kill();
+                        process.WaitForExit();
+                        process.Dispose();
+                    }
+                    foreach (var process in Process.GetProcessesByName("WebClient")) {
                         process.Kill();
                         process.WaitForExit();
                         process.Dispose();
