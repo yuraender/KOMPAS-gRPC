@@ -30,7 +30,7 @@ namespace WebClient.Clients {
                     Console.WriteLine(message);
                     if (message.StartsWith("SayHello")) {
                         var name = message.Substring(message.IndexOf(' ') + 1);
-                        var sayHello = Encoding.UTF8.GetBytes($"SayHello {name}");
+                        var sayHello = Encoding.UTF8.GetBytes($"SayHello {_grpcClient.SayHello(name)}");
                         await _client.SendAsync(
                             new ArraySegment<byte>(sayHello, 0, sayHello.Length),
                             WebSocketMessageType.Text, true, CancellationToken.None

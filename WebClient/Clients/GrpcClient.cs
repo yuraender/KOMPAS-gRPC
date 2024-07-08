@@ -16,7 +16,11 @@ namespace WebClient.Clients {
             _client = new Kompas.KompasClient(channel);
         }
 
-        public string SayHello() {
+        public string SayHello(string name) {
+            var sayHello = _client.SayHello(new HelloRequest { Name = name });
+            if (sayHello != null) {
+                return sayHello.Message;
+            }
             return "";
         }
 
