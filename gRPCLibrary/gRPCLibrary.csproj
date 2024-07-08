@@ -43,6 +43,11 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
       <HintPath>Libs\Kompas6API5.dll</HintPath>
     </Reference>
+    <Reference Include="Kompas6Constants, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>Libs\Kompas6Constants.dll</HintPath>
+    </Reference>
     <Reference Include="KompasAPI7, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <EmbedInteropTypes>True</EmbedInteropTypes>
@@ -69,6 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Libs\Kompas6API5.dll" />
+    <Content Include="Libs\Kompas6Constants.dll" />
     <Content Include="Libs\KompasAPI7.dll" />
     <Content Include="Libs\KompasLibrary.dll" />
   </ItemGroup>

@@ -10,10 +10,18 @@
     </form>
   </div>
   <br>
+  @if (TempData.ContainsKey("status")) {
+    <p>Статус: @TempData["status"]</p>
+  }
   <div id="request">
     <form asp-controller="Home" asp-action="SayHello" method="POST">
       <input type="text" asp-for="Data!.Text" required>
       <input type="submit" value="SayHello">
+    </form>
+  </div>
+  <div id="request">
+    <form asp-controller="Home" asp-action="GetObjects" method="POST">
+      <input type="submit" value="Запросить размеры">
     </form>
   </div>
   @if (TempData.ContainsKey("response")) {

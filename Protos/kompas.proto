@@ -1,6 +1,7 @@
 syntax = "proto3";
 
 import "google/protobuf/empty.proto";
+import "google/protobuf/wrappers.proto";
 
 option csharp_namespace = "KOMPAS";
 
@@ -8,6 +9,8 @@ package greet;
 
 service Kompas {
   rpc SayHello (HelloRequest) returns (HelloResponse);
+  rpc IsDocumentOpen(google.protobuf.Empty) returns (google.protobuf.BoolValue);
+  rpc GetObjects (ObjectListRequest) returns (ObjectListResponse);
 }
 
 message HelloRequest {
@@ -17,4 +20,137 @@ message HelloRequest {
 message HelloResponse {
     string message = 1;
 }
+
+message ObjectListRequest {
+    repeated int32 types = 1;
+}
+
+message ObjectListResponse {
+    message Object {
+        message LineDimension {
+            double angle = 1;
+            int32 orientation = 2;
+            double shelfX = 3;
+            double shelfY = 4;
+            double x1 = 5;
+            double x2 = 6;
+            double x3 = 7;
+            double y1 = 8;
+            double y2 = 9;
+            double y3 = 10;
+        }
+        message AngleDimension {
+            double angle1 = 1;
+            double angle2 = 2;
+            int32 dimensionType = 3;
+            google.protobuf.BoolValue direction = 4;
+            double radius = 5;
+            double shelfX = 6;
+            double shelfY = 7;
+            double xC = 8;
+            double x1 = 9;
+            double x2 = 10;
+            double x3 = 11;
+            double yC = 12;
+            double y1 = 13;
+            double y2 = 14;
+            double y3 = 15;
+        }
+        message DiametralDimension {
+            double angle = 1;
+            google.protobuf.BoolValue dimensionType = 2;
+            double radius = 3;
+            double xC = 4;
+            double yC = 5;
+        }
+        message RadialDimension {
+            double angle = 1;
+            repeated google.protobuf.BoolValue branchBegin = 2;
+            int64 branchsCount = 3;
+            google.protobuf.BoolValue dimensionType = 4;
+            double radius = 5;
+            double shelfX = 6;
+            double shelfY = 7;
+            double xC = 8;
+            double yC = 9;
+        }
+        message BreakRadialDimension {
+            double angle = 1;
+            double breakAngle = 2;
+            double breakLength = 3;
+            double breakX1 = 4;
+            double breakX2 = 5;
+            double breakY1 = 6;
+            double breakY2 = 7;
+            double radius = 8;
+            int32 textOnLine = 9;
+            double xC = 10;
+            double yC = 11;
+        }
+        message BreakLineDimension {
+            double shelfX = 6;
+            double shelfY = 7;
+            double x1 = 9;
+            double x2 = 10;
+            double x3 = 11;
+            double y1 = 13;
+            double y2 = 14;
+            double y3 = 15;
+        }
+        message BreakAngleDimension {
+            double angle1 = 1;
+            double angle2 = 2;
+            int32 dimensionType = 3;
+            google.protobuf.BoolValue direction = 4;
+            double radius = 5;
+            double shelfX = 6;
+            double shelfY = 7;
+            double xC = 8;
+            double x1 = 9;
+            double x2 = 10;
+            double x3 = 11;
+            double yC = 12;
+            double y1 = 13;
+            double y2 = 14;
+            double y3 = 15;
+        }
+        message HeightDimension {
+            int32 dimensionType = 1;
+            double x = 2;
+            double x1 = 3;
+            double x2 = 4;
+            double y = 5;
+            double y1 = 6;
+            double y2 = 7;
+        }
+        message ArcDimension {
+            google.protobuf.BoolValue dimensionType = 1;
+            google.protobuf.BoolValue direction = 2;
+            double shelfX = 3;
+            double shelfY = 4;
+            google.protobuf.BoolValue textPointer = 5;
+            double xC = 6;
+            double x1 = 7;
+            double x2 = 8;
+            double x3 = 9;
+            double yC = 10;
+            double y1 = 11;
+            double y2 = 12;
+            double y3 = 13;
+        }
+
+        string name = 1;
+        oneof data {
+            LineDimension lineDimension = 2;
+            AngleDimension angleDimension = 3;
+            DiametralDimension diametralDimension = 4;
+            RadialDimension radialDimension = 5;
+            BreakRadialDimension breakRadialDimension = 6;
+            BreakLineDimension breakLineDimension = 7;
+            BreakAngleDimension breakAngleDimension = 8;
+            HeightDimension heightDimension = 9;
+            ArcDimension arcDimension = 10;
+        }
+    }
+    repeated Object objects = 1;
 }
